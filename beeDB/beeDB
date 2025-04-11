@@ -1,0 +1,51 @@
+#!/bin/bash
+
+CONFIG_FILE="./configure.json"
+SERVERS_DIR="./dn/servers"
+
+function usage {
+  cat <<EOT
+Usage: beeDB [start|stop|restart|status|stat]
+EOT
+  exit $1
+}
+
+function start_servers {
+  echo "Starting RP..."
+  node rp/server.js &
+
+  echo "Starting DN Servers..."
+  for port in $(jq -r '.nodes[].servers[].port' $CONFIG_FILE); do
+    node $SERVERS_DIR/server_$port.js &
+  done
+
+  echo "beeDB started."
+}
+
+function stop_servers {
+  echo "Stopping all beeDB services..."
+  pkill -f rp/server.js
+  pkill -f dn/servers/server_
+  echo "Stopped."
+}
+
+function show_status {
+  echo "Status:"
+  pgrep -af server.js
+}
+
+function show_stat {
+  echo "Stats (mock):"
+  echo "Total inserts: 0"
+  echo "Total reads: 0"
+}
+
+case $1 in
+  start) start_servers;;
+  stop) stop_servers;;
+  restart) stop_servers && sleep 1 && start_servers;;
+  status) show_status;;
+  stat) show_stat;;
+  -h) usage 0;;
+  *) usage 1;;
+esac

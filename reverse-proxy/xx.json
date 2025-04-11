@@ -1,0 +1,48 @@
+{
+  "type": "ROOT",
+  "value": {
+    "children": [
+      {
+        "type": "ELEMENT",
+        "value": {
+          "type": "suggestions",
+          "attributes": [],
+          "children": [
+            {
+              "type": "ELEMENT",
+              "value": {
+                "type": "book",
+                "attributes": [
+                  {
+                    "type": "ATTRIBUTE",
+                    "value": {
+                      "name": "title",
+                      "value": "Twilight"
+                    }
+                  }
+                ],
+                "children": []
+              }
+            },
+            {
+              "type": "ELEMENT",
+              "value": {
+                "type": "book",
+                "attributes": [
+                  {
+                    "type": "ATTRIBUTE",
+                    "value": {
+                      "name": "title",
+                      "value": "Twister"
+                    }
+                  }
+                ],
+                "children": []
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

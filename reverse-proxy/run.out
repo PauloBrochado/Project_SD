@@ -1,0 +1,11 @@
+frontend is reachable from proxy server
+id: cde reDirect => url: /?id=cde&xxx=12 , id: cde , path: / , params: {} , query: { id: 'cde', xxx: '12' }
+IN not found : { url: '/stylesheets/style.css', query: {} }
+id: abc reDirect => url: /?id=abc&xxx=12 , id: abc , path: / , params: {} , query: { id: 'abc', xxx: '12' }
+IN not found : { url: '/stylesheets/style.css', query: {} }
+id: abc reDirect => url: /?id=abc&xxx=12 , id: abc , path: / , params: {} , query: { id: 'abc', xxx: '12' }
+IN not found : { url: '/stylesheets/style.css', query: {} }
+id: abc reDirect => url: /?id=abc&xxx=12789 , id: abc , path: / , params: {} , query: { id: 'abc', xxx: '12789' }
+IN not found : { url: '/stylesheets/style.css', query: {} }
+id: abc reDirect => url: /?id=abc&xxx=12789 , id: abc , path: / , params: {} , query: { id: 'abc', xxx: '12789' }
+IN not found : { url: '/stylesheets/style.css', query: {} }
