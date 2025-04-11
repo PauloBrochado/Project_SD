@@ -19,9 +19,10 @@ if (!fs.existsSync(serversDir)) {
 config.nodes.forEach(node => {
     node.servers.forEach(server => {
         const serverCode = template
-            .replace('{{PORT}}', server.port)
+            .replace('"{{PORT}}"', server.port)
             .replace('{{NODE_ID}}', node.id)
-            .replace('{{SERVER_ID}}', server.id);
+            .replace('{{SERVER_ID}}', server.id)
+            .replace(/__SERVER_NAME__/g, server.name);
 
         const serverPath = path.join(serversDir, `server_${server.port}.js`);
         fs.writeFileSync(serverPath, serverCode);

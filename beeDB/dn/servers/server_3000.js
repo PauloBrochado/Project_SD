@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = "{{PORT}}";
+const PORT = 3000;
 
 app.use(express.json());
 
@@ -9,7 +9,7 @@ app.get('/status', (req, res) => {
     resp: {
       error: 0,
       data: {
-        service: "__SERVER_NAME__",
+        service: "n0s0",
         started: new Date().toISOString(),
         uptime: process.uptime()
       }
@@ -18,5 +18,5 @@ app.get('/status', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log("__SERVER_NAME__ running on port " + PORT);
+  console.log("n0s0 running on port " + PORT);
 }); 
