@@ -1,0 +1,93 @@
+version: '3'
+
+services:
+  dn1-1:
+    build:
+      context: .
+      dockerfile: ./dn/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+    command: ["node", "servers/server_3000.js"]
+    working_dir: /app/dn
+    depends_on:
+      - rp
+
+  dn2-1:
+    build:
+      context: .
+      dockerfile: ./dn/Dockerfile
+    ports:
+      - "3010:3010"
+    volumes:
+      - ./:/app
+    command: ["node", "servers/server_3010.js"]
+    working_dir: /app/dn
+    depends_on:
+      - rp
+
+  dn3-1:
+    build:
+      context: .
+      dockerfile: ./dn/Dockerfile
+    ports:
+      - "3020:3020"
+    volumes:
+      - ./:/app
+    command: ["node", "servers/server_3020.js"]
+    working_dir: /app/dn
+    depends_on:
+      - rp
+
+  dn4-2:
+    build:
+      context: .
+      dockerfile: ./dn/Dockerfile
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./:/app
+    command: ["node", "servers/server_3100.js"]
+    working_dir: /app/dn
+    depends_on:
+      - rp
+
+  dn5-2:
+    build:
+      context: .
+      dockerfile: ./dn/Dockerfile
+    ports:
+      - "3110:3110"
+    volumes:
+      - ./:/app
+    command: ["node", "servers/server_3110.js"]
+    working_dir: /app/dn
+    depends_on:
+      - rp
+
+  dn6-2:
+    build:
+      context: .
+      dockerfile: ./dn/Dockerfile
+    ports:
+      - "3120:3120"
+    volumes:
+      - ./:/app
+    command: ["node", "servers/server_3120.js"]
+    working_dir: /app/dn
+    depends_on:
+      - rp
+
+  rp-1:
+    build:
+      context: .
+      dockerfile: ./rp/Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./:/app
+
+networks:
+  beedbnet:
+    driver: bridge

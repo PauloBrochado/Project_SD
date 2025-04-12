@@ -9,7 +9,7 @@ app.get('/status', (req, res) => {
     resp: {
       error: 0,
       data: {
-        service: "n1s0",
+        service: "dn_n1s0",
         started: new Date().toISOString(),
         uptime: process.uptime()
       }
@@ -18,5 +18,5 @@ app.get('/status', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log("n1s0 running on port " + PORT);
+  console.log("dn_n1s0 running on port " + PORT);
 }); 
