@@ -5,7 +5,7 @@ SERVERS_DIR="./dn/servers"
 
 function usage {
   cat <<EOT
-Usage: beeDB [start|stop|restart|status|stats]
+Usage: beeDBd [start|stop|restart|status|stats]
 EOT
   exit $1
 }
