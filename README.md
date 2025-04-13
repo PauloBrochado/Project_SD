@@ -27,6 +27,7 @@ O sistema é composto por dois tipos de servidores:
 - Orquestração com Docker e Docker Compose.
 
 # Como usar 
+
 **Inicializar servers usando Docker**
 <1> Usando o terminal e estando no diretório do projeto < .. /PROJECT_SD % > 
 

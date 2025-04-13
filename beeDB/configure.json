@@ -1,6 +1,6 @@
 	   {
 	   "db_data_directory": "/the/path/to/directory",
-	   "server": { "host":"rp", "port":4000 },
+	   "server": { "host":"rp", "port":4010 },
 	   "nodes": [
 	     {
 		   "id": 0, 

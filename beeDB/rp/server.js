@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = 4000;
+const PORT = 4010;
 
 app.use(express.json());
 
@@ -18,5 +18,5 @@ app.get('/status', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log("RP service running on port " + PORT);
+  console.log("RP running on port " + PORT);
 });
