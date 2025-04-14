@@ -55,6 +55,8 @@ PORTS podes ser:
 
 **Caso não exista a pasta node_modules**
 
+<0> - Instalar docker no computador
+
 <1> - Para o install fazer:
   npm install
 
@@ -63,6 +65,7 @@ PORTS podes ser:
 
 
 **Inicializar servers usando Docker**
+
 <1> - Usando o terminal e estando no diretório do projeto < .. /PROJECT_SD % >:
   cd beeDB
 

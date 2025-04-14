@@ -35,6 +35,9 @@ PORTS podes ser:
 
 
 **Inicializar servers usando Docker**
+
+<0> - Instalar docker no computador
+
 <1> - Usando o terminal e estando no diretório do projeto < .. /PROJECT_SD % >:
   cd beeDB
 
