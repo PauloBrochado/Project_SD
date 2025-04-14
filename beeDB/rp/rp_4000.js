@@ -19,19 +19,46 @@ function f2(req,resp, next){
 
 // Defining backend servers
 let servers = {
-  "abc": {
-    id: "abc",
+  "dn0_3000": {
+    id: "dn0_3000",
     host: 'http://localhost:3000',
     proxy: proxy('http://localhost:3100'),
     usage: 0
   },
-  "cde": {
-    id: "cde",
+  "dn0_3010": {
+    id: "dn0_3010",
+    host: 'http://localhost:3010',
+    proxy: proxy('http://localhost:3110'),
+    usage: 0
+  },
+  "dn0_3020": {
+    id: "dn0_3020",
+    host: 'http://localhost:3020',
+    proxy: proxy('http://localhost:3120'),
+    usage: 0
+  },
+  "dn1_3100": {
+    id: "dn1_3100",
     host: 'http://localhost:3100',
-    proxy: proxy('http://localhost:3200'),
+    proxy: proxy('http://localhost:3000'),
+    usage: 0
+  },
+  "dn1_3110": {
+    id: "dn1_3110",
+    host: 'http://localhost:3110',
+    proxy: proxy('http://localhost:3010'),
+    usage: 0
+  },
+  "dn1_3120": {
+    id: "dn1_3120",
+    host: 'http://localhost:3120',
+    proxy: proxy('http://localhost:3020'),
     usage: 0
   }
-    };
+};
+
+
+    
 function reDirect( req, resp, next ){
 
   //console.log( req ); 
@@ -96,7 +123,7 @@ app.listen(4000, () => {
 
   console.log("RP service running on port " + 4000);
   // test if servers are reachable from proxy server
-  request( servers.abc.host, function (err, res, body) {
+  request( servers.dn0_3000.host, function (err, res, body) {
    if(err === null){
         console.log('frontend is reachable from proxy server')
    }
