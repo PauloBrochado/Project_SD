@@ -12,7 +12,7 @@ EOT
 
 function start_servers {
   echo "Starting RP..."
-  node rp/server.js &
+  node rp/rp_4000.js &
 
   echo "Starting DN Servers..."
   for port in $(jq -r '.nodes[].servers[].port' $CONFIG_FILE); do
@@ -24,8 +24,13 @@ function start_servers {
 
 function stop_servers {
   echo "Stopping all beeDB services..."
-  pkill -f rp/server.js
-  pkill -f dn/servers/server_
+  pkill -f rp/rp_4000.js
+  pkill -f dn/server_3000.js
+  pkill -f dn/server_3110.js
+  pkill -f dn/server_3120.js
+  pkill -f dn/server_3200.js
+  pkill -f dn/server_3210.js
+  pkill -f dn/server_3220.js
   echo "Stopped."
 }
 
@@ -45,7 +50,7 @@ case $1 in
   stop) stop_servers;;
   restart) stop_servers && sleep 1 && start_servers;;
   status) show_status;;
-  stat) show_stats;;
+  stats) show_stats;;
   -h) usage 0;;
   *) usage 1;;
 esac

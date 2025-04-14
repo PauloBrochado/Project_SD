@@ -6,13 +6,18 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "docker-compose up",
+    "watch": "nodemon --watch dn --watch rp --exec \"docker-compose down && docker-compose up\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "express-http-proxy": "^1.6.3",
+    "nodemon": "^3.0.1",
+    "request": "^2.88.2"
   }
 }

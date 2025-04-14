@@ -57,8 +57,6 @@ let servers = {
   }
 };
 
-
-    
 function reDirect( req, resp, next ){
 
   //console.log( req ); 
@@ -88,28 +86,37 @@ function reDirect( req, resp, next ){
 app.use('/api', reDirect);
 
 app.use('/stat', function( req, resp, next ){
-  let servers_a = Object.values( servers );
-	let servers_n = servers_a.length;
-	//console.log( servers_n, servers_a );
-	let living_time_in_secs = Math.round( ( Date.now() - start_at.getTime() ) * 0.001 );
-	let i= 0;
-	let stat = [];
-	for( i=0; i<servers_n; ++i ){
-	  let server = servers_a[ i ];
-	  stat.push( {
-	    id: server.id,
-	    host: server.host,
-	    usage: server.usage
-	    });
-	}
-	  console.table( stat );
+  // Usar Map para garantir que cada servidor só seja contado uma vez (por ID)
+  let uniqueServersMap = new Map();
+  
+  // Agrupar por ID do servidor
+  Object.values(servers).forEach(server => {
+    uniqueServersMap.set(server.id, server);
+  });
+  
+  let servers_a = Array.from(uniqueServersMap.values());
+  let servers_n = servers_a.length;
+  
+  //console.log( servers_n, servers_a );
+  let living_time_in_secs = Math.round( ( Date.now() - start_at.getTime() ) * 0.001 );
+  let i= 0;
+  let stat = [];
+  for( i=0; i<servers_n; ++i ){
+    let server = servers_a[ i ];
+    stat.push( {
+      id: server.id,
+      host: server.host,
+      usage: server.usage
+      });
+  }
+  console.table( stat );
 
-	  resp.status(200).send( {
-	    success: true,
-            start_at: start_at.toISOString(),
-            now: (new Date()).toISOString(),
-	    living_time_in_secs,
-	    stat } );
+  resp.status(200).send( {
+    success: true,
+    start_at: start_at.toISOString(),
+    now: (new Date()).toISOString(),
+    living_time_in_secs,
+    stat } );
 });
 
 app.use(function(req, res, next) {
@@ -146,4 +153,17 @@ ____________________________________________________________________________
 Perceber código 
 
 Melhorar Interface dos servers DN
+
+
+
+
+Não, você não precisa alterar mais nada no código. O sistema já está configurado para funcionar corretamente com os servidores que adicionamos.
+O código está projetado de forma inteligente para que:
+A função reDirect já busca automaticamente o servidor correto pelo ID
+A rota /stat já mostra estatísticas de todos os servidores disponíveis
+O teste de conectividade já foi atualizado para usar o novo servidor dn0_3000
+Você pode usar o sistema assim:
+Para acessar um servidor: http://localhost:4000/api?id=dn0_3000 (ou qualquer outro ID)
+Para ver estatísticas: http://localhost:4000/stat
+Tudo está pronto para funcionar!
 ____________________________________________________________________________*/

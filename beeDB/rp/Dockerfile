@@ -5,5 +5,5 @@ COPY . /app/
 RUN npm install
 
 WORKDIR /app/rp
-CMD ["node", "server.js"]
+CMD ["node", "rp_4000.js"]
 
