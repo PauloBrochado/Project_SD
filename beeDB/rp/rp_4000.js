@@ -1,6 +1,8 @@
 const proxy = require('express-http-proxy');
 
 const app = require('express')();
+// Adicionar middleware para processar requisições JSON
+app.use(require('express').json());
 
 const request = require('request');
 
@@ -137,6 +139,48 @@ function reDirect( req, resp, next ){
 
 //app.use('/api', f1,reDirect, f2);
 app.use('/api', reDirect);
+
+// Implement data sharding function
+function getShardTarget(key) {
+  // Simple hash function to determine which server to route to
+  const hash = key.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  
+  // Get list of available servers
+  const serverIds = Object.keys(servers);
+  
+  // Determine index using modulo operation (standard sharding approach)
+  const serverIndex = hash % serverIds.length;
+  
+  return serverIds[serverIndex];
+}
+
+// Add new endpoint to handle data operations with sharding
+app.post('/data', (req, res) => {
+  const { key, value, operation } = req.body;
+  
+  if (!key) {
+    return res.status(400).json({ error: "Key is required" });
+  }
+  
+  // Determine which server to route to based on key
+  const targetServerId = getShardTarget(key);
+  const targetServer = servers[targetServerId];
+  
+  if (!targetServer) {
+    return res.status(500).json({ error: "Failed to find appropriate server" });
+  }
+  
+  // Add sharding info to the request
+  req.query.id = targetServerId;
+  
+  // Redirect to the appropriate server
+  targetServer.usage++;
+  targetServer.proxy(req, res, (error) => {
+    if (error) {
+      return res.status(500).json({ error: "Proxy error", details: error });
+    }
+  });
+});
 
 app.use('/stat', function( req, resp, next ){
   // Usar Map para garantir que cada servidor só seja contado uma vez (por ID)
