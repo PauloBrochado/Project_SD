@@ -6,8 +6,12 @@ app.use(express.json());
 
 app.get('/status', (req, res) => {
   res.json({
+    json: "CopyEdit",
     resp: {
       error: 0,
+      code: "SUCCESS",
+      errno: 0,
+      message: "Operação realizada com sucesso",
       data: {
         service: "dn_n0s0",
         started: new Date().toISOString(),
