@@ -68,4 +68,3 @@ node dn/generate_servers.js
 <6> - É possivel também usar os comandos:
   ./beeDBd [start|stop|restart|status|stats]
 
-test new branch test
