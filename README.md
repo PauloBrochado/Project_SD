@@ -95,3 +95,20 @@ node dn/generate_servers.js
 
 <6> - É possivel também usar os comandos:
   ./beeDBd [start|stop|restart|status|stats]
+
+
+  *Como Funciona BASE DE DADOS*
+
+<TUDO TEM QUE SER USADO NO TERMINAL>
+
+Adicionar à based de dados:
+curl -X POST -H "Content-Type: application/json" -d '{"key":"<KEY_NAME>", "value":{"<nome>":"<NAME>", "<idade>":<IDADE>}}' http://localhost:4000/data
+
+Consultar na base de dados:
+curl -X GET -H "Content-Type: application/json" "http://localhost:3000/data/<KEY_NAME>" 
+
+Atualizar na base de dados:
+curl -X PUT -H "Content-Type: application/json" -d '{"key":"<KEY_NAME>", "value":{"<nome>":"<NAME>", "<idade>":<IDADE>}}' "http://localhost:3000/data/<KEY_NAME>"
+
+Remover da base de dados:
+curl -X DELETE -H "Content-Type: application/json" "http://localhost:3000/data<KEY_NAME>"      
