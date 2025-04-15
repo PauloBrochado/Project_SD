@@ -195,28 +195,3 @@ app.listen(4000, () => {
   });
 
 });
-
-
-/* __________________________________________________________________________
-
-Configuração do servidor
-
-Colocar portas dos 6 servers e ver se os nodes estão a funcionar
-____________________________________________________________________________
-Perceber código 
-
-Melhorar Interface dos servers DN
-
-
-
-
-Não, você não precisa alterar mais nada no código. O sistema já está configurado para funcionar corretamente com os servidores que adicionamos.
-O código está projetado de forma inteligente para que:
-A função reDirect já busca automaticamente o servidor correto pelo ID
-A rota /stat já mostra estatísticas de todos os servidores disponíveis
-O teste de conectividade já foi atualizado para usar o novo servidor dn0_3000
-Você pode usar o sistema assim:
-Para acessar um servidor: http://localhost:4000/api?id=dn0_3000 (ou qualquer outro ID)
-Para ver estatísticas: http://localhost:4000/stat
-Tudo está pronto para funcionar!
-____________________________________________________________________________*/
