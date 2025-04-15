@@ -6,6 +6,11 @@ const request = require('request');
 
 const start_at = new Date();
 
+// Check if we're running in Docker or locally
+const isDocker = process.env.DOCKER_ENV === 'true';
+
+//const getHost = (prefix, port) => `http://${prefix}-${Math.floor(port / 1000)}: ${port}`;
+
 function f1(req,resp, next){
   console.log( "f1 => name:", next.name, ", url:", req.url );
   next(  );
@@ -17,45 +22,92 @@ function f2(req,resp, next){
   next( );
 }
 
-// Defining backend servers
-let servers = {
-  "dn0_3000": {
-    id: "dn0_3000",
-    host: 'http://localhost:3000',
-    proxy: proxy('http://localhost:3100'),
-    usage: 0
-  },
-  "dn0_3010": {
-    id: "dn0_3010",
-    host: 'http://localhost:3010',
-    proxy: proxy('http://localhost:3110'),
-    usage: 0
-  },
-  "dn0_3020": {
-    id: "dn0_3020",
-    host: 'http://localhost:3020',
-    proxy: proxy('http://localhost:3120'),
-    usage: 0
-  },
-  "dn1_3100": {
-    id: "dn1_3100",
-    host: 'http://localhost:3100',
-    proxy: proxy('http://localhost:3000'),
-    usage: 0
-  },
-  "dn1_3110": {
-    id: "dn1_3110",
-    host: 'http://localhost:3110',
-    proxy: proxy('http://localhost:3010'),
-    usage: 0
-  },
-  "dn1_3120": {
-    id: "dn1_3120",
-    host: 'http://localhost:3120',
-    proxy: proxy('http://localhost:3020'),
-    usage: 0
-  }
-};
+// Define servers configuration based on environment
+let servers = {};
+
+if (isDocker) {
+  // Docker environment configuration
+  servers = {
+    "dn0_3000": {
+      id: "dn0_3000",
+      host: 'http://dn0-0:3000',
+      proxy: proxy('http://dn1-0:3100'),
+      usage: 0
+    },
+    "dn0_3010": {
+      id: "dn0_3010",
+      host: 'http://dn0-1:3010',
+      proxy: proxy('http://dn1-1:3110'),
+      usage: 0
+    },
+    "dn0_3020": {
+      id: "dn0_3020",
+      host: 'http://dn0-2:3020',
+      proxy: proxy('http://dn1-2:3120'),
+      usage: 0
+    },
+    "dn1_3100": {
+      id: "dn1_3100",
+      host: 'http://dn1-0:3100',
+      proxy: proxy('http://dn0-0:3000'),
+      usage: 0
+    },
+    "dn1_3110": {
+      id: "dn1_3110",
+      host: 'http://dn1-1:3110',
+      proxy: proxy('http://dn0-1:3010'),
+      usage: 0
+    },
+    "dn1_3120": {
+      id: "dn1_3120",
+      host: 'http://dn1-2:3120',
+      proxy: proxy('http://dn0-2:3020'),
+      usage: 0
+    }
+  };
+} else {
+  // Local development configuration
+  servers = {
+    "dn0_3000": {
+      id: "dn0_3000",
+      host: 'http://localhost:3000',
+      proxy: proxy('http://localhost:3100'),
+      usage: 0
+    },
+    "dn0_3010": {
+      id: "dn0_3010",
+      host: 'http://localhost:3010',
+      proxy: proxy('http://localhost:3110'),
+      usage: 0
+    },
+    "dn0_3020": {
+      id: "dn0_3020",
+      host: 'http://localhost:3020',
+      proxy: proxy('http://localhost:3120'),
+      usage: 0
+    },
+    "dn1_3100": {
+      id: "dn1_3100",
+      host: 'http://localhost:3100',
+      proxy: proxy('http://localhost:3000'),
+      usage: 0
+    },
+    "dn1_3110": {
+      id: "dn1_3110",
+      host: 'http://localhost:3110',
+      proxy: proxy('http://localhost:3010'),
+      usage: 0
+    },
+    "dn1_3120": {
+      id: "dn1_3120",
+      host: 'http://localhost:3120',
+      proxy: proxy('http://localhost:3020'),
+      usage: 0
+    }
+  };
+}
+
+console.log(`Running in ${isDocker ? 'Docker' : 'local'} environment`);
 
 function reDirect( req, resp, next ){
 
@@ -81,6 +133,7 @@ function reDirect( req, resp, next ){
 	});
   }
 }
+
 
 //app.use('/api', f1,reDirect, f2);
 app.use('/api', reDirect);

@@ -48,9 +48,7 @@ PORTS podes ser:
         - 3110
         - 3120
  RP:
-    <Para o rp padrão>
-        - 4010
-    <Para o rp do Professor (Ainda não funcional!)>
+    <Para o rp>
         - 4000
 
 **Caso não exista a pasta node_modules**

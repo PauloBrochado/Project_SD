@@ -1,7 +1,7 @@
 #version: '3'
 
 services:
-  dn1-1:
+  dn0-0:
     build:
       context: .
       dockerfile: ./dn/Dockerfile
@@ -12,9 +12,12 @@ services:
     command: ["node", "servers/server_3000.js"]
     working_dir: /app/dn
     depends_on:
+      - dn1-0
       - rp
+    environment:
+      - DOCKER_ENV=true
 
-  dn2-1:
+  dn0-1:
     build:
       context: .
       dockerfile: ./dn/Dockerfile
@@ -25,9 +28,12 @@ services:
     command: ["node", "servers/server_3010.js"]
     working_dir: /app/dn
     depends_on:
+      - dn1-1
       - rp
+    environment:
+      - DOCKER_ENV=true
 
-  dn3-1:
+  dn0-2:
     build:
       context: .
       dockerfile: ./dn/Dockerfile
@@ -38,9 +44,12 @@ services:
     command: ["node", "servers/server_3020.js"]
     working_dir: /app/dn
     depends_on:
+      - dn1-2
       - rp
+    environment:
+      - DOCKER_ENV=true
 
-  dn4-2:
+  dn1-0:
     build:
       context: .
       dockerfile: ./dn/Dockerfile
@@ -52,8 +61,10 @@ services:
     working_dir: /app/dn
     depends_on:
       - rp
+    environment:
+      - DOCKER_ENV=true
 
-  dn5-2:
+  dn1-1:
     build:
       context: .
       dockerfile: ./dn/Dockerfile
@@ -65,8 +76,10 @@ services:
     working_dir: /app/dn
     depends_on:
       - rp
+    environment:
+      - DOCKER_ENV=true
 
-  dn6-2:
+  dn1-2:
     build:
       context: .
       dockerfile: ./dn/Dockerfile
@@ -78,6 +91,8 @@ services:
     working_dir: /app/dn
     depends_on:
       - rp
+    environment:
+      - DOCKER_ENV=true
 
   rp:
     build:
@@ -87,6 +102,9 @@ services:
       - "4000:4000"
     volumes:
       - ./:/app
+    environment:
+      - DOCKER_ENV=true
+
 
 networks:
   beedbnet:

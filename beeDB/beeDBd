@@ -20,17 +20,34 @@ function start_servers {
   done
 
   echo "beeDB started."
+  echo "BeeDB is running locally!"
+  echo "RP is available at: http://localhost:4000"
+  echo "To access servers, use: http://localhost:4000/api?id=dn0_<port>"
+  echo "To see statistics, use: http://localhost:4000/stat"
 }
 
 function stop_servers {
   echo "Stopping all beeDB services..."
   pkill -f rp/rp_4000.js
+  lsof -i :4000 | grep LISTEN | awk '{print $2}' | xargs kill -9
+
   pkill -f dn/server_3000.js
+  lsof -i :3000 | grep LISTEN | awk '{print $2}' | xargs kill -9
+
+  pkill -f dn/server_3010.js
+  lsof -i :3010 | grep LISTEN | awk '{print $2}' | xargs kill -9
+
+  pkill -f dn/server_3020.js
+  lsof -i :3020 | grep LISTEN | awk '{print $2}' | xargs kill -9
+
+  pkill -f dn/server_3100.js
+  lsof -i :3100 | grep LISTEN | awk '{print $2}' | xargs kill -9
+
   pkill -f dn/server_3110.js
+  lsof -i :3110 | grep LISTEN | awk '{print $2}' | xargs kill -9
+
   pkill -f dn/server_3120.js
-  pkill -f dn/server_3200.js
-  pkill -f dn/server_3210.js
-  pkill -f dn/server_3220.js
+  lsof -i :3120 | grep LISTEN | awk '{print $2}' | xargs kill -9
   echo "Stopped."
 }
 
