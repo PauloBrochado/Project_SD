@@ -1,0 +1,18 @@
+{
+  "name": "beeDB",
+  "version": "1.0.0",
+  "description": "BeeDB project",
+  "main": "generate_servers.js",
+  "scripts": {
+    "start": "node generate_servers.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-http-proxy": "^2.1.1",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7"
+  },
+  "author": "",
+  "license": "ISC"
+}

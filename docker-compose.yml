@@ -1,0 +1,103 @@
+#version: '3'
+
+services:
+  dn0-0:
+    build:
+      context: .
+      dockerfile: ./src/DNs/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+    command: ["node", "/app/src/DNs/server_3000.js"]
+    environment:
+      - DOCKER_ENV=true
+    networks:
+      - beedbnet
+
+  dn0-1:
+    build:
+      context: .
+      dockerfile: ./src/DNs/Dockerfile
+    ports:
+      - "3010:3010"
+    volumes:
+      - ./:/app
+    command: ["node", "/app/src/DNs/server_3010.js"]
+    environment:
+      - DOCKER_ENV=true
+    networks:
+      - beedbnet
+
+  dn0-2:
+    build:
+      context: .
+      dockerfile: ./src/DNs/Dockerfile
+    ports:
+      - "3020:3020"
+    volumes:
+      - ./:/app
+    command: ["node", "/app/src/DNs/server_3020.js"]
+    environment:
+      - DOCKER_ENV=true
+    networks:
+      - beedbnet
+
+  dn1-0:
+    build:
+      context: .
+      dockerfile: ./src/DNs/Dockerfile
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./:/app
+    command: ["node", "/app/src/DNs/server_3100.js"]
+    environment:
+      - DOCKER_ENV=true
+    networks:
+      - beedbnet
+
+  dn1-1:
+    build:
+      context: .
+      dockerfile: ./src/DNs/Dockerfile
+    ports:
+      - "3110:3110"
+    volumes:
+      - ./:/app
+    command: ["node", "/app/src/DNs/server_3110.js"]
+    environment:
+      - DOCKER_ENV=true
+    networks:
+      - beedbnet
+
+  dn1-2:
+    build:
+      context: .
+      dockerfile: ./src/DNs/Dockerfile
+    ports:
+      - "3120:3120"
+    volumes:
+      - ./:/app
+    command: ["node", "/app/src/DNs/server_3120.js"]
+    environment:
+      - DOCKER_ENV=true
+    networks:
+      - beedbnet
+
+  rp:
+    build:
+      context: .
+      dockerfile: ./src/RP/Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./:/app
+    environment:
+      - DOCKER_ENV=true
+    networks:
+      - beedbnet
+
+networks:
+  beedbnet:
+    driver: bridge
