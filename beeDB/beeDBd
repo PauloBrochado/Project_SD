@@ -53,7 +53,7 @@ function stop_servers {
 
 function show_status {
   echo "Status:"
-  pgrep -af server.js
+  pgrep -af rp/rp_4000.js
 }
 
 function show_stats {
