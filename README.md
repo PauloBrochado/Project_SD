@@ -30,19 +30,21 @@ O sistema é composto por dois tipos de servidores:
 
 **AVISO**
 
-<0> - ObeeDB está configurado para funcionar com 9 servers sendo 3 masters e 6 slaves. Cada master tem 2 slaves associadas a ele. A configuração pode ser alterada no arquivo configure.json.
+<0> - Instalar docker no computador
+
+<1> - ObeeDB está configurado para funcionar com 9 servers sendo 3 masters e 6 slaves. Cada master tem 2 slaves associadas a ele. A configuração pode ser alterada no arquivo configure.json.
 
 RP is available at: http://localhost:4000
 To access servers, use: http://localhost:4000/api?id=dn0_<port>
 To see statistics, use: http://localhost:4000/stat
 
-<1> - Para visualizar status de cada server, abrir a um navegador e pesquiser por:
+<2> - Para visualizar status de cada server, abrir a um navegador e pesquiser por:
   http://localhost:<PORT>/status 
 
-<2> - Para visualizar status do Reverse-Proxy, abrir a um navegador e pesquiser por:
+<3> - Para visualizar status do Reverse-Proxy, abrir a um navegador e pesquiser por:
   http://localhost:<PORT>/stat
 
-<3> - Para aceder ao servidor através do reverse-proxy, abrir a um navegador e pesquiser por:
+<4> - Para aceder ao servidor através do reverse-proxy, abrir a um navegador e pesquiser por:
   http://localhost:<PORT>/api?id=<server_id>
 
 PORTS podes ser:
@@ -60,8 +62,6 @@ PORTS podes ser:
         - 4000
 
 **Caso não exista a pasta node_modules**
-
-<0> - Instalar docker no computador
 
 <1> - Para o install fazer:
   npm install
