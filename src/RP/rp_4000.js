@@ -1,4 +1,5 @@
 const proxy = require('express-http-proxy');
+const axios = require('axios');
 
 const app = require('express')();
 
@@ -109,34 +110,65 @@ if (isDocker) {
 
 console.log(`Running in ${isDocker ? 'Docker' : 'local'} environment`);
 
-function reDirect( req, resp, next ){
+// Mapeamento de shard para servidores
+const shardMap = {
+  'dn0': ['dn0_3000', 'dn0_3010', 'dn0_3020'],
+  'dn1': ['dn1_3100', 'dn1_3110', 'dn1_3120']
+};
+// Cache de líderes
+let leaderCache = {};
 
-  //console.log( req ); 
-
-  let id = req.query.id;
-	
-	console.log( "id:", id, "reDirect => url:", req.url, ", id:", id, ", path:",  req.path, ", params:", req.params, ", query:", req.query );
-
-  let server = servers[ id ];
-
-  if( ! server ){
-  console.log( `Server with id "${id}" does not exist.` )
-    return next( { error: "wrong server id" } );
-  }
-  else{
-    server.usage++;
-    //server.proxy( req, resp, next );
-    server.proxy( req, resp, function( req, resp){
-	  console.log( "************* resp *************" );
-	  console.log( resp );
-	  next( req, resp);
-	});
+// Atualiza o cache de líderes periodicamente
+async function updateLeaders() {
+  for (const [shard, ids] of Object.entries(shardMap)) {
+    for (const id of ids) {
+      try {
+        const res = await axios.get(servers[id].host + '/status', { timeout: 500 });
+        if (res.data.state === 'leader') {
+          leaderCache[shard] = id;
+          break;
+        }
+      } catch (e) { /* ignora erro */ }
+    }
   }
 }
+setInterval(updateLeaders, 2000);
+updateLeaders();
 
+function getShardFromId(id) {
+  return id.split('_')[0];
+}
+
+function getRandomReplica(shard) {
+  const ids = shardMap[shard];
+  return ids[Math.floor(Math.random() * ids.length)];
+}
+
+async function smartRedirect(req, resp, next) {
+  let id = req.query.id;
+  if (!id) return next({ error: 'missing id' });
+  const shard = getShardFromId(id);
+  const method = req.method.toUpperCase();
+  await updateLeaders(); // garantir cache atualizado
+  const leaderId = leaderCache[shard];
+  if (!leaderId) return resp.status(503).json({ error: 'No leader available for shard ' + shard });
+  // Escrita: só o líder aceita
+  if (['PUT', 'DELETE', 'POST'].includes(method)) {
+    if (id !== leaderId) {
+      // Redireciona para o líder
+      return resp.status(307).json({ error: 'Not leader', leader: leaderId, leaderHost: servers[leaderId].host });
+    }
+    servers[leaderId].usage++;
+    return servers[leaderId].proxy(req, resp, next);
+  }
+  // Leitura: pode ir para qualquer réplica
+  const replicaId = getRandomReplica(shard);
+  servers[replicaId].usage++;
+  return servers[replicaId].proxy(req, resp, next);
+}
 
 //app.use('/api', f1,reDirect, f2);
-app.use('/api', reDirect);
+app.use('/api', smartRedirect);
 
 app.use('/stat', function( req, resp, next ){
   // Usar Map para garantir que cada servidor só seja contado uma vez (por ID)

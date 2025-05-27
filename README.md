@@ -3,7 +3,13 @@
 
 # 🐝 beeDB - Distributed Key:Value Database
 
-**beeDB** é um banco de dados distribuído baseado em pares `key:value`, construído com Node.js e Express. Ele simula uma arquitetura distribuída real, incluindo técnicas de eleição de líder (Raft) e consistência de replicação (Two-Phase Commit), com suporte a sharding e persistência em disco.
+beeDB é um banco de dados distribuído baseado em pares key:value, com:
+- Consenso Raft (eleição de líder, replicação, failover)
+- Sharding e replicação
+- Persistência em disco
+- APIs RESTful para CRUD
+- Reverse Proxy inteligente
+- Monitoramento e logs estruturados
 
 ## 🔧 Arquitetura
 
@@ -103,3 +109,36 @@ node dn/generate_servers.js
 
 <6> - É possivel também usar os comandos:
   ./beeDBd [start|stop|restart|status|stats]
+
+## Endpoints principais
+
+- **CRUD:**
+  - `PUT /api/:key?id=<server_id>` `{ value: ... }`  
+  - `GET /api/:key?id=<server_id>`
+  - `DELETE /api/:key?id=<server_id>`
+- **Status:**
+  - `/status` (em cada DN)
+  - `/stat` (no RP e nos DNs)
+
+## Exemplo de uso
+
+```sh
+curl -X PUT 'http://localhost:4000/api/mykey?id=dn0_3000' -H 'Content-Type: application/json' -d '{"value":123}'
+curl 'http://localhost:4000/api/mykey?id=dn0_3000'
+curl -X DELETE 'http://localhost:4000/api/mykey?id=dn0_3000'
+```
+
+## Monitoramento
+- Logs estruturados em `beedb.log`
+- `/stat` mostra uso dos servidores
+- `/status` mostra estado do nó (líder, follower, etc)
+
+## Testes automatizados
+Veja `test/api.test.js` para exemplos de testes automatizados com Jest e Supertest.
+
+## Observações
+- Apenas o líder aceita escrita. Followers retornam o endereço do líder.
+- O RP descobre automaticamente o líder de cada shard.
+- Dados e logs são persistidos em disco.
+
+---
